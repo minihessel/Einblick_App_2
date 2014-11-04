@@ -131,7 +131,7 @@ public class Visualize {
 
         // Applying the Apriori algorithm
         AlgoApriori apriori = new AlgoApriori();
-        Itemsets result = apriori.runAlgorithm(0.2, input, null);
+        Itemsets result = apriori.runAlgorithm(0.0001, input, null);
         apriori.printStats();
         result.printItemsets(apriori.getDatabaseSize());
 
