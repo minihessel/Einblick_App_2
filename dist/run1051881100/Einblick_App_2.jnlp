@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Einblick_App_2.jnlp">
+  <information>
+    <title>Einblick_App_2</title>
+    <vendor>Eskil</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="8.0+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Einblick_App_2.jar" size="7425940" download="eager" />
+    <jar href="lib/HikariCP-2.0.1.jar" size="70623" download="eager" />
+    <jar href="lib/controlsfx-8.20.8.jar" size="957666" download="eager" />
+    <jar href="lib/easybind-1.0.3.jar" size="44787" download="eager" />
+    <jar href="lib/javassist.jar" size="710746" download="eager" />
+    <jar href="lib/mysql-connector-java-5.1.23-bin.jar" size="834091" download="eager" />
+    <jar href="lib/openjfx-dialogs-1.0.2.jar" size="148557" download="eager" />
+    <jar href="lib/slf4j-api-1.7.7.jar" size="29257" download="eager" />
+    <jar href="lib/slf4j-simple-1.7.7.jar" size="10683" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Einblick_App_2" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="EInblick_App"  name="Einblick_App_2" />
+  <update check="always"/>
+</jnlp>

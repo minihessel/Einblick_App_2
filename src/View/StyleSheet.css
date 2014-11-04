@@ -1,0 +1,128 @@
+/*To put images on buttons*/
+#newConnectionButton {
+    -fx-graphic:url('/Icons/new_database.png');
+    -fx-background-color: transparent;
+}
+
+#dataButton {
+    -fx-graphic:url('/Icons/database.png');
+    -fx-background-color: transparent;
+}
+
+#visualizeButton {
+    -fx-graphic:url('/Icons/visualize.png');
+    -fx-background-color: transparent;
+}
+
+#combineButton{
+    -fx-graphic:url('/Icons/combineColumns.png');
+    -fx-background-color: transparent;
+
+}
+#areaChartButton{
+    -fx-graphic:url('/Icons/area_chart_icon.png');
+    -fx-background-color: transparent;
+}
+#scatterChartButton{
+    -fx-graphic:url('/Icons/scatter_chart_icon.png');
+    -fx-background-color: transparent;
+
+}
+
+
+#exportToPNGbutton{
+    -fx-graphic:url('/Icons/exportToPNG.png');
+    -fx-background-color: transparent;
+
+}
+#barChartButton{
+    -fx-graphic:url('/Icons/bar_chart_icon.png');
+    -fx-background-color: transparent;
+
+
+}
+
+#pieChartButton{
+    -fx-graphic:url('/Icons/pie_chart_icon.png');
+    -fx-background-color: transparent;
+
+}
+
+
+#lineChartButton{
+    -fx-graphic:url('/Icons/line_chart_icon.png');
+    -fx-background-color: transparent; 
+
+}
+
+#btnHelp{
+    -fx-graphic:url('/Icons/help.png');
+    -fx-background-color: transparent; 
+
+}
+
+
+
+#btnMenu
+{
+    -fx-graphic:url('/Icons/menu.png');
+    -fx-background-color: transparent; 
+
+}
+
+#btnNewCombinedColumn{
+    -fx-graphic:url('/Icons/add_new_combined_column.png');
+    -fx-background-color: transparent; 
+
+}
+
+.tree-view, #left-pane .tree-view:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+
+}
+
+.tree-cell{
+    -fx-background-color:  transparent;
+    -fx-padding: 0;
+    -fx-indent: 20;
+
+}
+.tree-view {
+
+}
+
+
+.tooltip {
+   -fx-font: 22 arial;
+}
+
+
+.tree-view .tree-cell:filled{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.button:hover {
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.button:pressed
+{    -fx-effect: dropshadow(three-pass-box, rgba(150,0,0,0.30), 100, 0, 0, 0);
+
+}
+
+/* to make tne toolbar with the buttons inside invis*/
+#toolBar{
+    -fx-background-color: transparent;
+}
+
+
+

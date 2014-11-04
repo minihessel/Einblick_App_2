@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainFXMLController">
+    <children>
+        <VBox fx:id="vBoxMenu" fillWidth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ToolBar id="toolBar" orientation="VERTICAL">
+                    <items>
+                        <Button id="newConnectionButton" fx:id="btnNewConnection" onAction="#newConnectionButton">
+                            <tooltip>
+                                <Tooltip text="This button opens the wizard for connecting to a new table in a database" />
+                            </tooltip>
+                        </Button>
+                        <Button id="dataButton" fx:id="btnConnectedTables" onAction="#handleDataButton">
+                            <tooltip>
+                                <Tooltip text="This button opens the wizard for connecting to a new table in a database" />
+                            </tooltip>
+                        </Button>
+                        <Button id="visualizeButton" fx:id="btnVisualize" onAction="#visualizeButton">
+                            <tooltip>
+                                <Tooltip text="This button opens up the visualize pane" />
+                            </tooltip>
+                        </Button>
+                        <Button id="combineButton" fx:id="btnCombine" onAction="#combineButton">
+                            <tooltip>
+                                <Tooltip text="This button opens op the pane for combining data. If you have connected to different tables, this option gives you the possibility of combining columns." />
+                            </tooltip>
+                        </Button>
+                    </items>
+                </ToolBar>
+            </children>
+        </VBox>
+        <BorderPane fx:id="borderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <center>
+                <AnchorPane fx:id="connectToDatabaseAnchorPane" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fx:id="imageView" opacity="0.55" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane fx:id="anchorPaneVisualize" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <SplitPane fx:id="splitPaneVisualize" dividerPositions="0.5, 0.5" layoutX="21.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <items>
+                                        <Label id="lblYourConnectedTables" fx:id="visualizeLabel" alignment="CENTER" prefHeight="51.0" prefWidth="408.0" text="VISUALIZE" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Menlo Regular" size="20.0" />
+                                            </font>
+                                        </Label>
+                                        <AnchorPane>
+                                            <children>
+                                                <BarChart fx:id="barChart" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+                                                    <xAxis>
+                                                        <CategoryAxis side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis side="LEFT" />
+                                                    </yAxis>
+                                                </BarChart>
+                                                <StackedAreaChart fx:id="areaChart" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+                                                    <xAxis>
+                                                        <CategoryAxis animated="false" side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis animated="false" side="LEFT" />
+                                                    </yAxis>
+                                                </StackedAreaChart>
+                                    <ScatterChart fx:id="scatterChart" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+                                      <xAxis>
+                                        <CategoryAxis side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                      </yAxis>
+                                    </ScatterChart>
+                                                <Label fx:id="label" text="Label" />
+                                                <PieChart fx:id="pieChart" clockwise="false" visible="false" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="32.0" />
+                             
+                                                <LineChart fx:id="lineChart" layoutY="32.0" prefHeight="732.0" prefWidth="1221.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+                                                    <xAxis>
+                                                        <CategoryAxis side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis side="LEFT" />
+                                                    </yAxis>
+                                                </LineChart>
+                                                <Button fx:id="btnNewSeries" layoutY="3.0" mnemonicParsing="false" onAction="#btnNewSeries" text="Add new series to chart" visible="false" />
+                                                <Button fx:id="btnNewChart" mnemonicParsing="false" onAction="#btnNewChart" text="Create new chart" visible="false" AnchorPane.bottomAnchor="738.0" AnchorPane.rightAnchor="10.0" />
+                                            </children>
+                                        </AnchorPane>
+                                        <ToolBar id="toolBar" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" SplitPane.resizableWithParent="false">
+                                            <items>
+                                                <Button id="pieChartButton" fx:id="handlePieChartButton" onAction="#pieChartButton">
+                                                    <tooltip>
+                                                        <Tooltip text="Click here to make a pie chart" />
+                                                    </tooltip>
+                                                </Button>
+                                                <Button id="barChartButton" fx:id="handleBarChartButton" onAction="#barChartButton">
+                                                    <tooltip>
+                                                        <Tooltip text="Click here to make a bar chart" />
+                                                    </tooltip>
+                                                </Button>
+                                                <Button id="lineChartButton" fx:id="handleLineChartButton" onAction="#lineChartButton">
+                                                    <tooltip>
+                                                        <Tooltip text="Click here to make a line chart" />
+                                                    </tooltip>
+                                                </Button>
+                                    <Button id="scatterChartButton" fx:id="handleLineChartButton11" onAction="#scatterChartButton">
+                                       <tooltip>
+                                          <Tooltip text="Click here to make a scatter chart" />
+                                       </tooltip>
+                                    </Button>
+                                                <Button id="areaChartButton" fx:id="handleLineChartButton1" onAction="#areaChartButton">
+                                                    <tooltip>
+                                                        <Tooltip text="Click here to make a area chart" />
+                                                    </tooltip>
+                                                </Button>
+                                                <Button id="exportToPNGbutton" fx:id="printScreenButton" onAction="#btnExportChartToPNG">
+                                                    <tooltip>
+                                                        <Tooltip text="Click here to save your chart as PNG" />
+                                                    </tooltip>
+                                                </Button>
+                                            </items>
+                                            <opaqueInsets>
+                                                <Insets />
+                                            </opaqueInsets>
+                                        </ToolBar>
+                                    </items>
+                                </SplitPane>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="anchorPaneTables" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <SplitPane fx:id="splitPaneTables" dividerPositions="0.06098964326812428" layoutX="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="871.0" prefWidth="1221.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <items>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                              <Label id="lblYourConnectedTables" alignment="TOP_RIGHT" contentDisplay="TOP" layoutX="483.0" layoutY="2.0" text="Your connected tables" textAlignment="CENTER" AnchorPane.leftAnchor="483.0" AnchorPane.rightAnchor="483.0" AnchorPane.topAnchor="2.0">
+                                                  <font>
+                                                      <Font name="Menlo Regular" size="20.0" />
+                                                  </font>
+                                              </Label>
+                                    <Button alignment="BASELINE_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#btnRemoveFilters" text="Remove filters" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <ComboBox fx:id="comboBox" layoutX="99.0" layoutY="22.0" onAction="#goToColumn" prefWidth="150.0" promptText="Jump to column" />
+                                 </children>
+                              </AnchorPane>
+                                        <TabPane id="tabPane" fx:id="tabPane">
+                                          
+                                        </TabPane>
+                                    </items>
+                                </SplitPane>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </center>
+            <bottom>
+                <Button id="btnHelp" fx:id="btnHelp" onAction="#btnHelp" BorderPane.alignment="BOTTOM_RIGHT">
+                    <tooltip>
+                        <Tooltip text="This button opens the wizard for connecting to a new table in a database" />
+                    </tooltip>
+                </Button>
+            </bottom>
+            <top>
+                <Button id="btnMenu" fx:id="btnMenu" BorderPane.alignment="TOP_LEFT">
+                    <tooltip>
+                        <Tooltip text="This button opens the wizard for connecting to a new table in a database" />
+                    </tooltip>
+                </Button>
+            </top>
+        </BorderPane>
+    </children>
+</AnchorPane>

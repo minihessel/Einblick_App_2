@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="628.0" prefWidth="1054.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CombineColumnsController">
+   <children>
+      <SplitPane dividerPositions="0.34980988593155893, 0.6986692015209125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <AnchorPane fx:id="anchorPane">
+               <children>
+                  <Button fx:id="btnCancel" layoutX="8.0" layoutY="589.0" mnemonicParsing="false" onAction="#btnCancel" prefHeight="26.0" prefWidth="93.0" text="Cancel" />
+                  <Text layoutX="118.0" layoutY="30.0" strokeWidth="0.0" text="Connected tables ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <VBox fx:id="vBox" layoutY="56.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane>
+               <children>
+                  <Button layoutX="129.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnAdd" text="Create" />
+                  <Text layoutX="54.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Combined Column Name">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textField" layoutX="147.0" layoutY="60.0" />
+                  <Label layoutX="14.0" layoutY="65.0" text="New Column name" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minWidth="-Infinity">
+               <children>
+                  <ListView fx:id="listView" layoutX="8.0" layoutY="50.0" prefHeight="535.0" prefWidth="313.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                  <Text layoutX="42.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List of new columns">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="btnFinish" layoutX="220.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnFinish" prefHeight="26.0" prefWidth="93.0" text="Finish" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
