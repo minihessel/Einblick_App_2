@@ -48,7 +48,7 @@ public class Kolonne {
         listOfColumns.add(kol);
     }
 
-    void addField(String item) {
+   public void addField(String item) {
         fields.add(item);
     }
 

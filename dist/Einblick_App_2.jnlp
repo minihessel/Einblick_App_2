@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Einblick_App_2.jar" size="7403247" download="eager" />
+    <jar href="Einblick_App_2.jar" size="7406640" download="eager" />
     <jar href="lib/HikariCP-2.0.1.jar" size="70623" download="eager" />
     <jar href="lib/controlsfx-8.20.8.jar" size="957666" download="eager" />
     <jar href="lib/easybind-1.0.3.jar" size="44787" download="eager" />

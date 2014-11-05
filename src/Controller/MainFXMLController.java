@@ -12,6 +12,8 @@ import Model.Table;
 import View.ChartToPng;
 import View.DataInsight;
 import View.SideBar;
+import apriori.Itemsets;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -29,7 +31,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -222,8 +223,19 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void visualizeButton(ActionEvent event) throws UnsupportedEncodingException, IOException {
-        DataInsight datainsight = new DataInsight();
-       datainsight.getInsight(0, 1, tabPane, mapOverTabAndTable);
+        try {
+            createStats();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(MainFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -303,7 +315,7 @@ public class MainFXMLController implements Initializable {
     private void newConnectionButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException, InterruptedException, ExecutionException {
         setVisibleView("tableView");
         //  openDialogWithSQLConnectionInfo();
-        createTabPaneWithTable("salesline");
+        createTabPaneWithTable("salesline3");
 
     }
 
@@ -540,6 +552,79 @@ public class MainFXMLController implements Initializable {
         imageView.setImage(noTables);
         imageView.visibleProperty().bind(Bindings.size(tabPane.getTabs()).isEqualTo(0));
 
+    }
+
+    public void createStats() throws UnsupportedEncodingException, IOException, FileNotFoundException, ClassNotFoundException, SQLException, InterruptedException, ExecutionException {
+          DataInsight datainsight = new DataInsight();
+
+       Table tabellen =  datainsight.getInsight(0, 1, tabPane, mapOverTabAndTable);
+  
+
+       
+
+        VBox vBox = new VBox();
+
+        //  String query = textField.getText();
+        //her skjer oppkoblingen
+        //laster inn dataen med en query
+        //legger til den nye tilkoblede tabellen i listen over tilkoblede tabeller
+        tablesList.add(tabPaneCounter, tabellen);
+
+        TableView tableViewet = new TableView();
+        listOfTableViews.add(tableViewet);
+
+        Label lbl = new Label("Number of rows : " + tabellen.numberofRows);
+        AnchorPane anchorPane = new AnchorPane(lbl);
+
+        anchorPane.setRightAnchor(lbl,
+                5.0);
+        //legger til tableviewet i tabben
+        vBox.getChildren()
+                .addAll(tableViewet, anchorPane);
+        tableViewet = tabellen.fillTableView(tableViewet, tabellen);
+
+        vBox.setId(
+                "" + tabPaneCounter);
+
+        Tab tab = new Tab("qq"
+                + "@");
+
+        tab.setOnClosed(new EventHandler<javafx.event.Event>() {
+            @Override
+            public void handle(javafx.event.Event e) {
+                tablesList.remove(tabellen);
+                tabPane.getTabs().remove(tab);
+            }
+        });
+
+        tab.setContent(vBox);
+
+        tabPane.getTabs()
+                .add(tab);
+        mapOverTabAndTableView.put(tab, tableViewet);
+        mapOverTabAndTable.put(tab, tabellen);
+        System.out.println(tab);
+        System.out.println(tabPane.getTabs().get(tabPaneCounter));
+        tabPaneCounter++;
+
+        tab.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
+
+                if (new_val.equals(Boolean.TRUE)) {
+
+                    comboBox.getItems().clear();
+                    comboBox.getItems().addAll(mapOverTabAndTableView.get(tabPane.getSelectionModel().getSelectedItem()).getColumns());
+                    comboBox.setValue(null);
+                    System.out.println("true");
+
+                }
+
+            }
+        });
+
+        tabPane.getSelectionModel()
+                .select(tab);
+        comboBox.getItems().addAll(mapOverTabAndTableView.get(tabPane.getSelectionModel().getSelectedItem()).getColumns());
     }
 
     public void createTabPaneWithTable(String whichTable) throws SQLException, ClassNotFoundException, InterruptedException, ExecutionException {

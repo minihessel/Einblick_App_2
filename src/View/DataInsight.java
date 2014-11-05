@@ -5,17 +5,21 @@
  */
 package View;
 
+import Model.Kolonne;
 import Model.Table;
-import apriori.AlgoApriori;
+import apriori.AlgoFPGrowth;
+import apriori.Itemset;
 import apriori.Itemsets;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import javafx.scene.control.TabPane;
 
 /**
@@ -56,24 +60,56 @@ public class DataInsight {
         }
     }
 
-    public void getInsight(Integer nameColumn, Integer valueColumn, TabPane tabPane, Map mapOverTabsAndTables) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+    public Table getInsight(Integer nameColumn, Integer valueColumn, TabPane tabPane, Map mapOverTabsAndTables) throws FileNotFoundException, UnsupportedEncodingException, IOException, SQLException, ClassNotFoundException, InterruptedException, ExecutionException {
 
         Table selectedTable = (Table) mapOverTabsAndTables.get(tabPane.getSelectionModel().getSelectedItem());
         for (List<String> a : selectedTable.sortedData) {
-            addNewDataPoint(a.get(0), a.get(4));
+            addNewDataPoint(a.get(1), a.get(0));
         }
 
         // Note : we here set the output file path to null
         // because we want that the algorithm save the 
         // result in memory for this example.
-        double minsup = 0.001; // means a minsup of 2 transaction (we used a relative support)
+        double minsup = 0.004; // means a minsup of 2 transaction (we used a relative support)
 
         // Applying the Apriori algorithm
-        AlgoApriori apriori = new AlgoApriori();
-        Itemsets result = apriori.runAlgorithm(minsup, transdata, null);
+        //   AlgoApriori apriori = new AlgoApriori();
+        // Itemsets result = apriori.runAlgorithm(minsup, transdata, null);
+        AlgoFPGrowth apriori = new AlgoFPGrowth();
+        Itemsets result = apriori.runAlgorithm(transdata, null, minsup);
 
         apriori.printStats();
-        result.printItemsets(apriori.getDatabaseSize(), invertedItemMap);
+
+        Table table = new Table("Data insight");
+        Kolonne kolonne = new Kolonne("itemset", 0, table);
+        Kolonne kolonne2 = new Kolonne("Support", 1, table);
+        Kolonne kolonne3 = new Kolonne("Level", 2, table);
+        int levelCount = 0;
+        for (List<Itemset> level : result.getLevels()) {
+            if (levelCount > 1) {
+                for (Itemset itemset : level) {
+                    Arrays.sort(itemset.getItems());
+                    // print the itemset
+
+                    int[] s = itemset.getItems();
+                    String itemSet = "";
+                    for (int i : s) {
+                        itemSet += invertedItemMap.get(i) + " & ";
+
+                    }
+
+                    kolonne.addField(itemSet);
+                    // print the support of this itemset
+                    kolonne2.addField(itemset.getRelativeSupportAsString(apriori.getDatabaseSize()));
+                    kolonne3.addField("" + levelCount);
+                }
+
+            }
+            levelCount++;
+        }
+        table.listofColumns.add(kolonne);
+        table.listofColumns.add(kolonne2);
+        return table;
 
     }
 
