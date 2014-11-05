@@ -10,6 +10,7 @@ import View.Visualize;
 import Model.Kolonne;
 import Model.Table;
 import View.ChartToPng;
+import View.DataInsight;
 import View.SideBar;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -221,7 +222,8 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void visualizeButton(ActionEvent event) throws UnsupportedEncodingException, IOException {
-       visualize.getInsight(0, 1, tabPane, mapOverTabAndTable);
+        DataInsight datainsight = new DataInsight();
+       datainsight.getInsight(0, 1, tabPane, mapOverTabAndTable);
 
     }
 

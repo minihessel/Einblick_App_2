@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Testing"/>
+        <group name="Testing">
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/View/Visualize.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/apriori/Itemsets.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/apriori/Itemset.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/apriori/AlgoApriori.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/Controller/MainFXMLController.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/View/DataInsight.java</file>
+            <file>file:/Users/Eskil/NetBeansProjects/Einblick_App_2/src/View/Item.java</file>
+        </group>
     </open-files>
 </project-private>

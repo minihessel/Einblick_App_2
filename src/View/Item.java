@@ -11,8 +11,8 @@ package View;
  */
 public class Item {
 
-    static String ID;
-    Integer createdInt;
+   public  String ID;
+    public Integer createdInt;
 
     public Item(String ID, Integer createdInt) {
 

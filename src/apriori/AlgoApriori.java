@@ -16,23 +16,20 @@ package apriori;
  * SPMF. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.BufferedReader;
+import View.Item;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import apriori.ArraysAlgos;
-import apriori.Itemset;
-import apriori.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
+import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * This is an optimized implementation of the Apriori algorithm that uses binary search to check if subsets of a candidate are frequent and other optimizations.
@@ -68,11 +65,11 @@ public class AlgoApriori {
     // the minimum support set by the user
     private int minsupRelative;
 
-	// A memory representation of the database.
+    // A memory representation of the database.
     // Each position in the list represents a transaction
     private List<int[]> database = null;
 
-	// The  patterns that are found 
+    // The  patterns that are found 
     // (if the user want to keep them into memory)
     protected Itemsets patterns = null;
 
@@ -94,7 +91,7 @@ public class AlgoApriori {
      * @param output the path of an input if the result should be saved to a file. If null, the result will be kept into memory and this method will return the result.
      * @throws IOException exception if error while writting or reading the input/output file
      */
-    public Itemsets runAlgorithm(double minsup, String input, String output) throws IOException {
+    public Itemsets runAlgorithm(double minsup, Map map, String output) throws IOException {
 
         // if the user want to keep the result into memory
         if (output == null) {
@@ -115,56 +112,46 @@ public class AlgoApriori {
         // reset the utility for checking the memory usage
         MemoryLogger.getInstance().reset();
 
-		// READ THE INPUT FILE
+        // READ THE INPUT FILE
         // variable to count the number of transactions
         databaseSize = 0;
-		// Map to count the support of each item
+        // Map to count the support of each item
         // Key: item  Value : support
         Map<Integer, Integer> mapItemCount = new HashMap<Integer, Integer>(); // to count the support of each item
 
         database = new ArrayList<int[]>(); // the database in memory (intially empty)
 
-        // scan the database to load it into memory and count the support of each single item at the same time
-        BufferedReader reader = new BufferedReader(new FileReader(input));
-        String line;
-        // for each line (transactions) until the end of the file
-        while (((line = reader.readLine()) != null)) {
-			// if the line is  a comment, is  empty or is a
-            // kind of metadata
-            if (line.isEmpty() == true
-                    || line.charAt(0) == '#' || line.charAt(0) == '%'
-                    || line.charAt(0) == '@') {
-                continue;
-            }
-            // split the line according to spaces
-            String[] lineSplited = line.split(" ");
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
 
-            // create an array of int to store the items in this transaction
-            int transaction[] = new int[lineSplited.length];
-
+            List<Item> transaction = (List<Item>) pairs.getValue();
             // for each item in this line (transaction)
-            for (int i = 0; i < lineSplited.length; i++) {
+            int[] trans = new int[transaction.size()];
+            System.out.println("new trans");
+            for (int i = 0; i < transaction.size(); i++) {
+                System.out.print(i);
                 // transform this item from a string to an integer
-                Integer item = Integer.parseInt(lineSplited[i]);
+                Item item = transaction.get(i);
                 // store the item in the memory representation of the database
-                transaction[i] = item;
+                trans[i] = item.createdInt;
+
                 // increase the support count
-                Integer count = mapItemCount.get(item);
+                Integer count = mapItemCount.get(item.createdInt);
                 if (count == null) {
-                    mapItemCount.put(item, 1);
+                    mapItemCount.put(item.createdInt, 1);
                 } else {
-                    mapItemCount.put(item, ++count);
+                    mapItemCount.put(item.createdInt, ++count);
                 }
             }
+
             // add the transaction to the database
-            database.add(transaction);
+            database.add(trans);
             // increase the number of transaction
             databaseSize++;
         }
-        // close the input file
-        reader.close();
 
-		// conver the minimum support as a percentage to a 
+        // conver the minimum support as a percentage to a 
         // relative minimum support as an integer
         this.minsupRelative = (int) Math.ceil(minsup * databaseSize);
 
@@ -181,7 +168,7 @@ public class AlgoApriori {
         }
         mapItemCount = null;
 
-		// We sort the list of candidates by lexical order
+        // We sort the list of candidates by lexical order
         // (Apriori need to use a total order otherwise it does not work)
         Collections.sort(frequent1, new Comparator<Integer>() {
             public int compare(Integer o1, Integer o2) {
@@ -201,7 +188,7 @@ public class AlgoApriori {
         // add the frequent items of size 1 to the total number of candidates
         totalCandidateCount += frequent1.size();
 
-		// Now we will perform a loop to find all frequent itemsets of size > 1
+        // Now we will perform a loop to find all frequent itemsets of size > 1
         // starting from size k = 2.
         // The loop will stop when no candidates can be generated.
         List<Itemset> level = null;
@@ -224,7 +211,7 @@ public class AlgoApriori {
             // we add the number of candidates generated to the total
             totalCandidateCount += candidatesK.size();
 
-			// We scan the database one time to calculate the support
+            // We scan the database one time to calculate the support
             // of each candidates and keep those with higher suport.
             // For each transaction:
             for (int[] transaction : database) {
@@ -238,7 +225,7 @@ public class AlgoApriori {
                 // for each candidate:
                 loopCand:
                 for (Itemset candidate : candidatesK) {
-		 			// a variable that will be use to check if 
+                    // a variable that will be use to check if 
                     // all items of candidate are in this transaction
                     int pos = 0;
                     // for each item in this transaction
@@ -253,7 +240,7 @@ public class AlgoApriori {
                                 candidate.support++;
                                 continue loopCand;
                             }
-					    // Because of lexical order, we don't need to 
+                            // Because of lexical order, we don't need to 
                             // continue scanning the transaction if the current item
                             // is larger than the one that we search  in candidate.
                         } else if (item > candidate.itemset[pos]) {
@@ -264,7 +251,7 @@ public class AlgoApriori {
                 }
             }
 
-			// We build the level k+1 with all the candidates that have
+            // We build the level k+1 with all the candidates that have
             // a support higher than the minsup threshold.
             level = new ArrayList<Itemset>();
             for (Itemset candidate : candidatesK) {
@@ -342,7 +329,7 @@ public class AlgoApriori {
             for (int j = i + 1; j < levelK_1.size(); j++) {
                 int[] itemset2 = levelK_1.get(j).itemset;
 
-				// we compare items of itemset1 and itemset2.
+                // we compare items of itemset1 and itemset2.
                 // If they have all the same k-1 items and the last item of
                 // itemset1 is smaller than
                 // the last item of itemset2, we will combine them to generate a
@@ -350,7 +337,7 @@ public class AlgoApriori {
                 for (int k = 0; k < itemset1.length; k++) {
                     // if they are the last items
                     if (k == itemset1.length - 1) {
-						// the one from itemset1 should be smaller (lexical
+                        // the one from itemset1 should be smaller (lexical
                         // order)
                         // and different from the one of itemset2
                         if (itemset1[k] >= itemset2[k]) {
@@ -370,7 +357,7 @@ public class AlgoApriori {
                 System.arraycopy(itemset1, 0, newItemset, 0, itemset1.length);
                 newItemset[itemset1.length] = itemset2[itemset2.length - 1];
 
-				// The candidate is tested to see if its subsets of size k-1 are
+                // The candidate is tested to see if its subsets of size k-1 are
                 // included in
                 // level k-1 (they are frequent).
                 if (allSubsetsOfSizeK_1AreFrequent(newItemset, levelK_1)) {

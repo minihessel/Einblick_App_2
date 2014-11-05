@@ -8,6 +8,7 @@ package View;
 import Model.Table;
 import apriori.AlgoApriori;
 import apriori.Itemsets;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +16,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,91 +51,20 @@ public class Visualize {
     private Map<String, Double> data = new HashMap<>();
     List<XYChart.Series> areaChartSeries = new ArrayList<>();
     List<XYChart.Series> lineChartSeries = new ArrayList<>();
-    private Map<String, Transaction> transdata = new HashMap<>();
-    List<Transaction> listOfTransaction = new ArrayList();
-    private Map<String, Item> itemMap = new HashMap<>();
-    Integer productNUmber = 1;
 
-    void getPieChartD() {
+ 
 
-    }
+
 
     void addNewDataPoint(String name, double value) {
         data.merge(name, value, Double::sum);
     }
 
-    void addNewDataPoint(String key, String name) {
-        Item item;
-        if (itemMap.containsKey(name)) {
-            item = itemMap.get(name);
 
-        } else {
-            item = new Item(name, productNUmber);
-            itemMap.put(name, item);
-            productNUmber++;
-        }
 
-        if (transdata.containsKey(key)) {
-            transdata.get(key).listOfItems.add(item);
 
-        } else {
-            Transaction transaction = new Transaction();
-            transdata.put(key, transaction);
-            transaction.add(item);
-            listOfTransaction.add(transaction);
 
-        }
-    }
-
-    private static <V, K> Map<V, K> invert(Map<K, V> map) {
-
-        Map<V, K> inv = new HashMap<V, K>();
-
-        for (Map.Entry<K, V> entry : map.entrySet()) {
-            inv.put(entry.getValue(), entry.getKey());
-        }
-
-        return inv;
-    }
-
-    public void getInsight(Integer nameColumn, Integer valueColumn, TabPane tabPane, Map mapOverTabsAndTables) throws FileNotFoundException, UnsupportedEncodingException, IOException {
-
-        Table selectedTable = (Table) mapOverTabsAndTables.get(tabPane.getSelectionModel().getSelectedItem());
-        for (List<String> a : selectedTable.sortedData) {
-            addNewDataPoint(a.get(0), a.get(4));
-        }
-        PrintWriter writer = new PrintWriter("/Users/Eskil/NetBeansProjects/Einblick_App_2/src/View/data.txt", "UTF-8");
-
-        for (Transaction trans : listOfTransaction) {
-            String textLine = "";
-            int i = 0;
-            for (Item item : trans.listOfItems) {
-                if (i != 0) {
-                    textLine += " ";
-                }
-                textLine += item.createdInt;
-                System.out.println(textLine);
-                i++;
-            }
-            writer.println(textLine);
-        }
-        writer.close();
-
-        String input = "/Users/Eskil/NetBeansProjects/Einblick_App_2/src/View/data.txt";
-        String output = null;
-        // Note : we here set the output file path to null
-        // because we want that the algorithm save the 
-        // result in memory for this example.
-
-        double minsup = 0.4; // means a minsup of 2 transaction (we used a relative support)
-
-        // Applying the Apriori algorithm
-        AlgoApriori apriori = new AlgoApriori();
-        Itemsets result = apriori.runAlgorithm(0.0001, input, null);
-        apriori.printStats();
-        result.printItemsets(apriori.getDatabaseSize());
-
-    }
+    
 
     public void getPieChartData(Integer nameColumn, Integer valueColumn, TabPane tabPane, Map mapOverTabsAndTables, PieChart pieChart, Label lbl, Boolean newSeries) {
         data.clear();

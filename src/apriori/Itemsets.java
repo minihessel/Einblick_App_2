@@ -15,8 +15,10 @@ package apriori;
  * You should have received a copy of the GNU General Public License along with
  * SPMF. If not, see <http://www.gnu.org/licenses/>.
  */
+import View.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ import java.util.Map;
  */
 public class Itemsets {
 
+    Map<Integer, Item> map = new HashMap();
     /**
      * We store the itemsets in a list named "levels". Position i in "levels" contains the list of itemsets of size i
      */
@@ -34,6 +37,7 @@ public class Itemsets {
     /**
      * the total number of itemsets *
      */
+
     private int itemsetsCount = 0;
     /**
      * a name that we give to these itemsets (e.g. "frequent itemsets")
@@ -48,13 +52,14 @@ public class Itemsets {
     public Itemsets(String name) {
         this.name = name;
         levels.add(new ArrayList<Itemset>()); // We create an empty level 0 by
+
         // default.
     }
 
     /* (non-Javadoc)
      * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#printItemsets(int)
      */
-    public void printItemsets(int nbObject) {
+    public void printItemsets(int nbObject, Map<Integer, String> map) {
         System.out.println(" ------- " + name + " -------");
         int patternCount = 0;
         int levelCount = 0;
@@ -68,12 +73,17 @@ public class Itemsets {
                 // print the itemset
 
                 System.out.print("  pattern " + patternCount + ":  ");
-                itemset.print();
+                int[] s = itemset.getItems();
+                for (int i : s) {
+
+                    System.out.print(map.get(i) + " & ");
+                }
                 // print the support of this itemset
                 System.out.print("support :  "
                         + itemset.getRelativeSupportAsString(nbObject));
                 patternCount++;
                 System.out.println("");
+
             }
             levelCount++;
         }
